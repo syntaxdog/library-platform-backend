@@ -17,6 +17,10 @@ public class Loan {
     private Long id; // 대여번호
 
     @ManyToOne
+    @JoinColumn(name = "book_management_id")
+    private com.example.demo.book.entity.BookManagement bookManagement;
+
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 

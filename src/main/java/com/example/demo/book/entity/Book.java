@@ -24,7 +24,4 @@ public class Book {
     private Integer price; // 가격
     private LocalDate registrationDate; // 등록일
 
-    @ManyToOne
-    @JoinColumn(name = "loan_id")
-    private com.example.demo.loan.entity.Loan loan;
 }
