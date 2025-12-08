@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.service.OpenAiService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

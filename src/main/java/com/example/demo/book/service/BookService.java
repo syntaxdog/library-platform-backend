@@ -1,12 +1,14 @@
 package com.example.demo.book.service;
 
-import com.example.demo.book.entity.Book;
-import java.util.List;
+import com.example.demo.book.dto.BookListResponse;
+import com.example.demo.book.dto.BookRequest;
+import com.example.demo.book.dto.BookResponse;
 
 public interface BookService {
-    List<Book> getAllBooks();
 
-    Book getBook(Long id);
+    // CRUD 기능의 계약 정의
+    BookListResponse getAllBooks(Integer page, String sort, String keyword);
 
-    Book createBook(Book book);
+    BookResponse getBookById(Long bookNo);
+
 }

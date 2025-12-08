@@ -38,8 +38,12 @@ dependencies {
 
 	//openai
 	implementation 'com.openai:openai-java:4.8.0'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	testLogging {
+		showStandardStreams = true
+	}
 }
