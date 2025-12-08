@@ -11,4 +11,5 @@ public interface BookService {
 
     BookResponse getBookById(Long bookNo);
 
+    Book createBook(Book book);
 }
