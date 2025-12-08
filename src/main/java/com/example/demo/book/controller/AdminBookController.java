@@ -48,4 +48,14 @@ public class AdminBookController {
         Book saved = bookService.createBook(book);
         return new AdminBookResponse(saved.getId(), "등록완료");
     }
+
+    /**
+     * 관리자 도서 삭제
+     * DELETE /admin/books/{bookId}
+     */
+    @DeleteMapping("/{bookId}")
+    public AdminBookResponse deleteBook(@PathVariable Long bookId) {
+        bookService.deleteBook(bookId);
+        return new AdminBookResponse(bookId, "삭제완료");
+    }
 }
