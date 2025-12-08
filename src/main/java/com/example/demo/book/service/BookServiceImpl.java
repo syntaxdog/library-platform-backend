@@ -69,14 +69,6 @@ public class BookServiceImpl implements BookService {
         }
 
         // ======================================================
-        // 3. 도서 생성 (Admin 기능, 사용자가 추가함)
-        // ======================================================
-        @Override
-        public Book createBook(Book book) {
-                return bookRepository.save(book);
-        }
-
-        // ======================================================
         // 4. 헬퍼 메서드: DTO 변환
         // ======================================================
         private BookResponse mapToResponse(Book book) {
@@ -103,4 +95,5 @@ public class BookServiceImpl implements BookService {
                                 .summary(summary) // includeDetail이 false면 null
                                 .build();
         }
+
 }
