@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockResponse {
-    /** 현재 재고 수 (대출 가능 수) */
-    private Integer currentStock;
+    /** 대여 가능 재고 수량 */
+    private Integer stockCount;
 }

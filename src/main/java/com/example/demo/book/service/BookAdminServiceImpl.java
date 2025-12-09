@@ -2,6 +2,7 @@ package com.example.demo.book.service;
 
 import com.example.demo.book.entity.Book;
 import com.example.demo.book.entity.BookDetail;
+import com.example.demo.book.entity.BookManagement;
 import com.example.demo.book.repository.BookDetailRepository;
 import com.example.demo.book.repository.BookManagementRepository;
 import com.example.demo.book.repository.BookRepository;
@@ -29,6 +30,12 @@ public class BookAdminServiceImpl implements BookAdminService {
                     .build();
             bookDetailRepository.save(detail);
         }
+        // 도서 등록 시 기본 대여가능 재고 1개 생성
+        BookManagement stock = BookManagement.builder()
+                .book(saved)
+                .isLoaned(false)
+                .build();
+        bookManagementRepository.save(stock);
         return saved;
     }
 
@@ -67,8 +74,9 @@ public class BookAdminServiceImpl implements BookAdminService {
 
     @Override
     public void deleteBook(Long bookId) {
+        // 요청에 포함된 bookId가 실제 존재하는지 확인 후 삭제
         if (!bookRepository.existsById(bookId)) {
-            throw new IllegalArgumentException("해당 도서를 찾을 수 없습니다: " + bookId);
+            return;
         }
         // FK 제약 방지를 위해 연관 데이터 먼저 삭제
         bookDetailRepository.findById(bookId).ifPresent(bookDetailRepository::delete);

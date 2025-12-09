@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface BookManagementRepository extends JpaRepository<BookManagement, Long> {
     Optional<BookManagement> findFirstByBookIdAndIsLoanedFalse(Long bookId);
 
+    List<BookManagement> findByBookId(Long bookId);
+
     /**
      * 특정 도서의 대출되지 않은(BookManagement.isLoaned == false) 레코드 목록 조회
      */

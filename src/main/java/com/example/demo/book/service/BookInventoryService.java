@@ -14,33 +14,49 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookInventoryService {
 
-    private final BookRepository bookRepository; // Book 조회용
-    private final BookManagementRepository bookManagementRepository; // 재고(BookManagement) 조작용
+    private final BookRepository bookRepository;
+    private final BookManagementRepository bookManagementRepository;
 
     /**
-     * 도서 재고 증감 처리
+     * 도서 대여가능 여부/재고 처리 (재고는 0 또는 1로만 관리)
      *
-     * @param bookId 재고를 변경할 도서 ID
-     * @param count  증감 수량 (0 이하이면 재고 변경 없이 현재 수량 반환)
-     * @return 변경 후 재고 수량(대출 가능 수량 기준)
+     * count <= 0 : 모든 재고를 대여불가(true)로 바꾸고 0 반환
+     * count > 0  : 최대 1개만 대여가능(false)로 두고, 나머지는 제거/대여불가로 처리 후 1 반환
      */
     public int restock(Long bookId, int count) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found: " + bookId));
 
-        if (count <= 0) return bookManagementRepository.countByBookIdAndIsLoanedFalse(bookId);
+        // 0 이하면 모든 재고를 대여불가(true)로 리셋 후 0 반환
+        if (count <= 0) {
+            List<BookManagement> records = bookManagementRepository.findByBookId(bookId);
+            records.forEach(bm -> bm.setIsLoaned(true)); // 대여불가 표시
+            if (!records.isEmpty()) {
+                bookManagementRepository.saveAll(records);
+            }
+            return 0;
+        }
 
-        List<BookManagement> toSave = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
+        // count > 0이면 재고를 최대 1개(대여가능=false)만 유지
+        List<BookManagement> records = bookManagementRepository.findByBookId(bookId);
+        if (records.isEmpty()) {
             BookManagement bm = BookManagement.builder()
                     .book(book)
                     .isLoaned(false)
                     .build();
-            toSave.add(bm);
+            bookManagementRepository.save(bm);
+            return 1;
         }
 
-        bookManagementRepository.saveAll(toSave);
+        BookManagement available = records.get(0);
+        available.setIsLoaned(false);
 
-        return bookManagementRepository.countByBookIdAndIsLoanedFalse(bookId);
+        // 나머지 레코드는 제거하여 1개만 유지
+        if (records.size() > 1) {
+            bookManagementRepository.deleteAll(records.subList(1, records.size()));
+        }
+        bookManagementRepository.save(available);
+
+        return 1;
     }
 }
