@@ -6,6 +6,7 @@ import com.example.demo.book.dto.BookResponse;
 import com.example.demo.book.entity.Book;
 import com.example.demo.book.entity.BookDetail;
 import com.example.demo.book.repository.BookDetailRepository;
+import com.example.demo.book.repository.BookManagementRepository;
 import com.example.demo.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ public class BookServiceImpl implements BookService {
 
         private final BookRepository bookRepository;
         private final BookDetailRepository bookDetailRepository;
+        private final BookManagementRepository bookManagementRepository;
 
         // ======================================================
         // 1. 도서 목록 및 검색 조회 (Controller의 GET /api/books 지원)
@@ -82,11 +84,21 @@ public class BookServiceImpl implements BookService {
         }
 
         private BookResponse mapToResponse(Book book, boolean includeDetail) {
-                String summary = null;
+                String description = null;
+                String genre = null;
+                String tag = null;
+                Boolean isLoaned = null;
+
                 if (includeDetail) {
-                        summary = bookDetailRepository.findById(book.getId())
+                        description = bookDetailRepository.findById(book.getId())
                                         .map(BookDetail::getDescription)
                                         .orElse(null);
+                        genre = book.getGenre();
+                        tag = book.getTag();
+                        // 대출 가능 여부 확인: 대출되지 않은(isLoaned=false) 책이 하나라도 있으면 "대출중 아님(false)"
+                        boolean isAvailable = bookManagementRepository.findFirstByBookIdAndIsLoanedFalse(book.getId())
+                                        .isPresent();
+                        isLoaned = !isAvailable;
                 }
 
                 return BookResponse.builder()
@@ -97,7 +109,10 @@ public class BookServiceImpl implements BookService {
                                 .coverImageUrl(book.getCoverImage())
                                 .price(book.getPrice())
                                 .registerDate(book.getRegistrationDate())
-                                .summary(summary) // includeDetail이 false면 null
+                                .description(description) // includeDetail이 false면 null
+                                .genre(genre)
+                                .tag(tag)
+                                .isLoaned(isLoaned)
                                 .build();
         }
         // 원래 있던 bookdelete, insert부분 태민님이 분리해서 다른 파일로 분리했습니다.
