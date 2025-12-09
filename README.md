@@ -22,10 +22,10 @@ Spring Boot 기반으로 개발된 **도서관 관리 시스템 백엔드 데모
 
 | 이름  | 역할                | 담당 기능                                    |
 | --- | ----------------- | ---------------------------------------- |
-| 김채환 | Backend Developer | JWT 인증, 로그인/회원가입, Spring Security, 예외 처리 |
-| 심미혜 | Backend Developer | 도서 CRUD, 검색 및 페이지네이션, 재고 관리              |
-| 김경민 | Backend Developer | 도서 대여/반납, Loan 정책 및 API 개발               |
-| 박지훈 | AI & Storage      | OpenAI 표지 생성, 이미지 저장 처리, Base64 변환       |
+| 김지윤 | Backend Developer | JWT 인증, 로그인/회원가입, Spring Security, 예외 처리 |
+| 김채환 | Backend Developer | 도서 대여/반납, Loan 정책 및 API 개발, OpenAI 표지 생성, 이미지 저장 처리, Base64 변환               |
+| 오흥찬 | Backend Developer | 도서 대여/반납, Loan 정책 및 API 개발               |
+| 황태민 | AI & Storage      | OpenAI 표지 생성, 이미지 저장 처리, Base64 변환       |
 
 > 인원 구성 및 역할은 예시입니다. 실제 팀 구조에 맞게 수정하세요!
 
@@ -122,10 +122,4 @@ Spring Boot 기반으로 개발된 **도서관 관리 시스템 백엔드 데모
 ## 📌 개선 예정 기능
 
 * Redis 기반 캐싱
-* Swagger API 문서화
-* S3 파일 업로드 연동
-
----
-
-필요하면 **ERD 다이어그램 추가**, **API 명세 표 더 정리**, **프로젝트 시연 GIF 제작**도 도와줄게요!
-팀원 이름 실제 정보로 수정할까요? 😄
+* S3 파일 업로드
