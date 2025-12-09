@@ -11,5 +11,5 @@ public class ImageRequest {
     private String prompt;     // 이미지 설명
     private int n;             // 이미지 개수
     private String size;       // 크기
-    private String bookTitle;  // 저장할 파일명
+    private String title;  // 저장할 파일명
 }

@@ -58,7 +58,7 @@ public class OpenAiService {
 
         // 요청 Body 구성 (bookTitle 포함해야 함!)
         ImageRequest requestPayload =
-                new ImageRequest(refinedPrompt, 1, "480x560", request.getBookTitle());
+                new ImageRequest(refinedPrompt, 1, "480x560", request.getTitle());
 
         HttpEntity<ImageRequest> entity = new HttpEntity<>(requestPayload, headers);
 
@@ -91,7 +91,7 @@ public class OpenAiService {
                 String folderPath = "src/main/resources/img";
                 Files.createDirectories(Paths.get(folderPath));
 
-                Path savePath = Paths.get(folderPath + "/" + request.getBookTitle() + ".txt");
+                Path savePath = Paths.get(folderPath + "/" + request.getTitle() + ".txt");
 
                 // Base64 파일 저장
                 Files.write(savePath, base64.getBytes());
