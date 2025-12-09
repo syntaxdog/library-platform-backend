@@ -20,6 +20,9 @@ public class BookResponse {
     private Integer price;
     private LocalDate registerDate;
 
-    private String summary;
+    private String description;
+    private String genre;
+    private String tag;
+    private Boolean isLoaned;
 
 }
