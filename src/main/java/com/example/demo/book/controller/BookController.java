@@ -48,7 +48,7 @@ public class BookController {
     // 3. 도서 상세 조회 ( GET /api/books/{bookId})
     // ==========================================
     @GetMapping("/{bookId}")
-    public ResponseEntity<BookResponse> getBookById(@PathVariable Long bookId) {
+    public ResponseEntity<BookResponse> getBookById(@PathVariable(name = "bookId") Long bookId) {
 
         // ★ [상세 조회 로직] Service에 위임하여 상세 정보 및 재고 계산 요청
         BookResponse book = bookService.getBookById(bookId);
