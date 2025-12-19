@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
         - name: my-web-container
-          # image: <ECR_URI>:latest  # (중요) Infra 담당자가 생성한 ECR 주소 필요
+          image: 416225317325.dkr.ecr.us-east-2.amazonaws.com/aivle-bookservice-team5-backend:latest
           ports:
             - containerPort: 8080      # 앱이 사용하는 포트 (예: 80, 8080)
