@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      # 1. kubectl 설치
+      - echo Installing kubectl...
+      - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.1/2023-04-19/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl
+      - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+      - aws --version
+
+      # 2. [오하이오] ECR 로그인 (이미지 확인용)
+      - echo Logging in to ECR...
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 416225317325.dkr.ecr.us-east-2.amazonaws.com
+
+      # 3. [오하이오] EKS 연결
+      - echo Connecting to EKS...
+      # 👇 <클러스터_이름>을 팀원에게 물어봐서 정확히 넣으세요! (예: aivle-cluster-team5)
+      - aws eks update-kubeconfig --region us-east-2 --name aivle_bookservice_team5
+
+  build:
+    commands:
+      # 4. 배포 명령 (k8s 폴더 내용 적용)
+      - echo Applying Kubernetes manifests...
+      - kubectl apply -f k8s/
+
+      # 5. 재시작 (방금 k8s 파일에서 정한 이름 'backend'로 재시작)
+      - kubectl rollout restart deployment/backend
+
+artifacts:
+  files:
+    - k8s/**/*
