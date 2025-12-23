@@ -16,7 +16,7 @@ phases:
 
       # 3. [오하이오] EKS 연결
       - echo Connecting to EKS...
-      - aws eks update-kubeconfig --region us-east-2 --name aivle_bookservice_team5
+      - aws eks update-kubeconfig --region us-east-2 --name team5-EKS-Cluster
 
   build:
     commands:
