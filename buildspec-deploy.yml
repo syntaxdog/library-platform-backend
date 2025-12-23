@@ -16,7 +16,6 @@ phases:
 
       # 3. [오하이오] EKS 연결
       - echo Connecting to EKS...
-      # 👇 <클러스터_이름>을 팀원에게 물어봐서 정확히 넣으세요! (예: aivle-cluster-team5)
       - aws eks update-kubeconfig --region us-east-2 --name aivle_bookservice_team5
 
   build:

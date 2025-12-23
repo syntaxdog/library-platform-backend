@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: my-web-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: backend   # Deployment의 라벨과 일치
   ports:
