@@ -6,6 +6,11 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    # 👇 [중요 1] CORS 허용 설정 추가 (이게 없으면 Network Error 남)
+    alb.ingress.kubernetes.io/cors-allow-methods: GET, POST, PUT, DELETE, PATCH, OPTIONS
+    alb.ingress.kubernetes.io/cors-allow-origin: '*'
+    alb.ingress.kubernetes.io/cors-allow-headers: '*'
+    alb.ingress.kubernetes.io/cors-allow-credentials: 'true'
 spec:
   ingressClassName: alb
   rules:
@@ -17,4 +22,5 @@ spec:
               service:
                 name: my-web-service
                 port:
-                  number: 80
+                  # 👇 [중요 2] 스프링 부트는 보통 8080입니다. 80에서 8080으로 수정!
+                  number: 8080
